@@ -22,11 +22,15 @@ Descripcion VARCHAR (30) NOT NULL,
 IVA FLOAT (05) NOT NULL
 );
 
+ALTER TABLE condicion_iva drop IVA;
+
 CREATE TABLE clasif_credit (
 cod_Clasif VARCHAR (02) NOT NULL PRIMARY KEY,
 aclaracion VARCHAR (20) NOT NULL,
 credit_limit INT NOT NULL
 );
+
+ALTER TABLE clasif_credit MODIFY aclaracion VARCHAR (50);
 
 CREATE TABLE condicion_venta (
 cod_Condic VARCHAR (02) NOT NULL PRIMARY KEY,
