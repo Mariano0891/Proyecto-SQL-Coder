@@ -1,3 +1,8 @@
+CREATE DATABASE  IF NOT EXISTS `concesionaria_vf_marianopavone`;
+USE `concesionaria_vf_marianopavone`;
+
+-- SCRIPTS DE CREACION DE TABLAS
+
 DROP TABLE IF EXISTS facturas;
 DROP TABLE IF EXISTS clientes;
 DROP TABLE IF EXISTS provincias;
@@ -139,6 +144,8 @@ cantidad INT NOT NULL,
 ubicacion VARCHAR (5),
 
 FOREIGN KEY (num_Serie) REFERENCES articulos (num_Serie));
+
+-- SCRIPTS DE INSERCION DE DATOS
 
 INSERT INTO provincias VALUES 
 ('CAB',	'CIUDAD AUTONOMA DE BUENOS AIRES'),
@@ -920,8 +927,6 @@ END $$
 
 delimiter $$
 
-CALL sp_orden_tabla ('', '', '');
-
 -- sp para carga de stock o actualizar el actual
 
 DROP PROCEDURE IF EXISTS sp_actualiz_compra_stock;
@@ -1024,8 +1029,6 @@ END$$
 
 DELIMITER ;
 
-SELECT * FROM sucursales;
-
 START TRANSACTION;
 
 DELETE FROM sucursales
@@ -1060,3 +1063,19 @@ INSERT INTO stock VALUES
 SAVEPOINT registro_8;
 
 -- RELEASE SAVEPOINT registro_4;
+
+USE mysql;
+
+-- Creacion del usuario que tendra mayores permisos
+CREATE USER 'mariano'@'localhost' IDENTIFIED BY 'mariano123';
+
+-- Otorgamiento de permisos de select, insert y update sobre todas las tablas
+GRANT SELECT, INSERT, UPDATE ON concesionaria_vf_marianopavone.* TO 'mariano'@'localhost';
+
+-- Creacion del segundo usuario.
+CREATE USER 'agustin'@'localhost' IDENTIFIED BY 'agustin123';
+
+-- Concesion de permiso de lectura sobre todas las tablas
+GRANT SELECT ON concesionaria_vf_marianopavone.* TO 'agustin'@'localhost';
+
+USE concesionaria_vf_marianopavone;
